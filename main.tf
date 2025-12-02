@@ -31,11 +31,10 @@ resource "docker_container" "db_container" {
 }
 
 resource "docker_image" "app_image" {
+  # Use a prebuilt local image to avoid Terraform/Docker build streaming issues.
+  # Build locally with: `docker build -t tp-web-app:latest -f Dockerfile_app .`
   name = "tp-web-app:latest"
-  build {
-    context    = "."
-    dockerfile = "Dockerfile_app"
-  }
+  keep_locally = true
 }
 
 resource "docker_container" "app_container" {

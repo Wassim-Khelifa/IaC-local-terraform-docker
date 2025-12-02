@@ -6,8 +6,9 @@ RUN apk update && \
 	rm -rf /var/cache/apk/*
 
 # Création d'une page HTML simple comme preuve de déploiement
-RUN mkdir -p /var/www/localhost && \
-	echo "<h1>Our Application Deployed via Terraform IaC!</h1>" > /var/www/localhost/index.html
+# Place la page dans le répertoire servi par nginx (Alpine: /var/lib/nginx/html)
+RUN mkdir -p /var/lib/nginx/html && \
+	echo "<h1>Our Application Deployed via Terraform IaC!</h1>" > /var/lib/nginx/html/index.html
 
 # Expose le port par défaut de Nginx
 EXPOSE 80

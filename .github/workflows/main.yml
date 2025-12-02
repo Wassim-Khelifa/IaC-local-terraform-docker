@@ -12,6 +12,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v2
@@ -21,6 +23,12 @@ jobs:
       - name: Ensure Docker available
         run: |
           docker version
+
+      - name: Show Terraform sources
+        run: |
+          git log -1 --oneline
+          echo "--- main.tf (head) ---"
+          sed -n '1,80p' main.tf
 
       - name: Terraform Init
         run: terraform init

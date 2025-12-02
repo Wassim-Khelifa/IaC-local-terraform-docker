@@ -32,6 +32,17 @@ jobs:
           echo "--- main.tf (head) ---"
           sed -n '1,80p' main.tf
 
+      - name: Build app Docker image
+        run: |
+          if [ -f Dockerfile_app ]; then
+            docker build -t tp-web-app:latest -f Dockerfile_app .
+          elif [ -f Dockerfile ]; then
+            docker build -t tp-web-app:latest -f Dockerfile .
+          else
+            echo "No Dockerfile found (Dockerfile_app or Dockerfile)" && exit 1
+          fi
+          docker images tp-web-app:latest || true
+
       - name: Terraform Init
         run: terraform init
 

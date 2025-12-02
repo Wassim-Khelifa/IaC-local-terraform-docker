@@ -8,7 +8,10 @@ RUN apk update && \
 # Création d'une page HTML simple comme preuve de déploiement
 # Place la page dans le répertoire servi par nginx (Alpine: /var/lib/nginx/html)
 RUN mkdir -p /var/lib/nginx/html && \
-	echo "<h1>Our Application Deployed via Terraform IaC!</h1>" > /var/lib/nginx/html/index.html
+	echo "<h1>Our Application Deployed via Terraform IaC!</h1>" > /var/lib/nginx/html/index.html && \
+	# Replace default site config (Alpine nginx default returns 404) with a simple server
+	mkdir -p /etc/nginx/http.d && \
+	cat > /etc/nginx/http.d/default.conf <<'NGXCONF'\nserver {\n    listen 80 default_server;\n    listen [::]:80 default_server;\n    root /var/lib/nginx/html;\n    index index.html;\n\n    location / {\n        try_files $uri $uri/ =404;\n    }\n}\nNGXCONF
 
 # Expose le port par défaut de Nginx
 EXPOSE 80

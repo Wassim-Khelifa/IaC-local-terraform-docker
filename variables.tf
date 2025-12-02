@@ -22,3 +22,9 @@ variable "app_port_external" {
   type        = number
   default     = 8080
 }
+
+variable "db_port_external" {
+  description = "Port externe mappé vers PostgreSQL sur l'hôte (évite conflit avec instance locale)"
+  type        = number
+  default     = 5433
+}

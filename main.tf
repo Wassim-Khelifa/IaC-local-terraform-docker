@@ -20,7 +20,7 @@ resource "docker_container" "db_container" {
 
   ports {
     internal = 5432
-    external = 5432
+    external = var.db_port_external
   }
 
   env = [

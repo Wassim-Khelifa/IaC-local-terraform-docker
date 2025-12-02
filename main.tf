@@ -16,7 +16,7 @@ resource "docker_image" "postgres_image" {
 
 resource "docker_container" "db_container" {
   name  = "tp-db-postgres"
-  image = docker_image.postgres_image.latest
+  image = docker_image.postgres_image.image_id
 
   ports {
     internal = 5432
@@ -40,7 +40,7 @@ resource "docker_image" "app_image" {
 
 resource "docker_container" "app_container" {
   name  = "tp-app-web"
-  image = docker_image.app_image.latest
+  image = docker_image.app_image.image_id
 
   depends_on = [docker_container.db_container]
 

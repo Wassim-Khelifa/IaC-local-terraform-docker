@@ -11,7 +11,16 @@ RUN mkdir -p /var/lib/nginx/html && \
 	echo "<h1>Our Application Deployed via Terraform IaC!</h1>" > /var/lib/nginx/html/index.html && \
 	# Replace default site config (Alpine nginx default returns 404) with a simple server
 	mkdir -p /etc/nginx/http.d && \
-	cat > /etc/nginx/http.d/default.conf <<'NGXCONF'\nserver {\n    listen 80 default_server;\n    listen [::]:80 default_server;\n    root /var/lib/nginx/html;\n    index index.html;\n\n    location / {\n        try_files $uri $uri/ =404;\n    }\n}\nNGXCONF
+	printf '%s\n' 'server {' \
+	  '    listen 80 default_server;' \
+	  '    listen [::]:80 default_server;' \
+	  '    root /var/lib/nginx/html;' \
+	  '    index index.html;' \
+	  '' \
+	  '    location / {' \
+	  '        try_files $uri $uri/ =404;' \
+	  '    }' \
+	  '}' > /etc/nginx/http.d/default.conf
 
 # Expose le port par défaut de Nginx
 EXPOSE 80

@@ -1,0 +1,8 @@
+/.terraform/
+terraform.tfstate
+terraform.tfstate.backup
+.terraform.lock.hcl
+*.tfvars
+# Docker
+**/node_modules/
+*.log

@@ -3,6 +3,8 @@ name: Terraform Docker IaC
 on:
   push:
     branches: [ main ]
+  # Allow manual runs from the Actions UI (useful after edits or for ad-hoc runs)
+  workflow_dispatch: {}
 
 jobs:
   terraform:
